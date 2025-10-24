@@ -2,6 +2,7 @@ import Category from "../models/category.js";
 import Link from "../models/link.js";
 import { validateCategory } from "../utils/schemaValidation.js";
 import { ObjectId } from "mongodb";
+import {v2 as cloudinary} from "cloudinary"
 
 export async function createCategory(req, res){
     const {error, value} = validateCategory(req.body)
@@ -145,6 +146,19 @@ export async function deleteCategory(req, res){
                 message: "Category not found"
             })
         }
+        
+        // delete the associated cloudinary images with all the links associated with this category
+        const childrenLinks = await Link.find({categoryId:req.params.categoryId, createdBy:req.user.id})
+
+       await Promise.all(
+        childrenLinks.map(link=>{
+            if(link.screenshot_public_id){
+            return cloudinary.uploader.destroy(link.screenshot_public_id)
+        }
+        })
+       )
+
+
         // cascade delete, when topic is deleted all the related messages will also be deleted
         await Link.deleteMany({categoryId:req.params.categoryId, createdBy:req.user.id})
     

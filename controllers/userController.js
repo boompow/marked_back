@@ -27,7 +27,7 @@ export async function getUserData(req, res){
             //  make sure to edit this to filter those that are not categorized
             Link.aggregate([
                 {$match:{createdBy: userId,}},
-                {$project:{_id:1, title:1, description:1, url:1, logo:1, createdBy:1, categoryId:1, title:1, hasCategory: 1 }}
+                {$project:{_id:1, title:1, description:1, url:1, screenshot:1, createdBy:1, categoryId:1, title:1, hasCategory: 1 }}
             ]),
 
             Category.aggregate([
@@ -46,7 +46,7 @@ export async function getUserData(req, res){
                             }
                         }},
 
-                        {$project:{_id:1, title:1, description:1, url:1, logo:1, createdBy:1, categoryId:1, title:1, hasCategory: 1 }}
+                        {$project:{_id:1, title:1, description:1, url:1, screenshot:1, createdBy:1, categoryId:1, title:1, hasCategory: 1 }}
                     ],
                     as: "topics"
                 }}

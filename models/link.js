@@ -19,13 +19,18 @@ const linkSchema = new Schema({
         }
     },
     
-    logo: {
+    screenshot: {
         type: String,
         trim: true,
         validate: {
             validator: value => !value || /^https?:\/\/[^\s$.?#].[^\s]*$/i.test(value),
             message: "Invalid logo URL format"
         }
+    },
+
+    screenshot_public_id:{
+        type: String,
+        trim: true,
     },
 
 

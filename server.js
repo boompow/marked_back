@@ -11,6 +11,8 @@ import linkRoutes from "./routes/link.routes.js"
 import categoryRoutes from "./routes/category.routes.js"
 import { getUserData } from "./controllers/userController.js";
 
+import { initBrowser } from "./utils/puppeteerBrowser.js";
+
 
 // PORT
 const PORT = process.env.PORT
@@ -49,6 +51,7 @@ app.use("/api/category", authenticate, categoryRoutes)
 
 
 // listner
-app.listen(PORT, ()=>{
+app.listen(PORT, async()=>{
+    await initBrowser()
     console.log(`200! Server is listening on http://localhost:${PORT}`)
 })

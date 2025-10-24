@@ -1,6 +1,9 @@
 import Category from "../models/category.js";
 import Link from "../models/link.js";
 import { validateLink } from "../utils/schemaValidation.js";
+import { takeScreenshot } from "../utils/puppeteerScreenshot.js";
+import { bufferUploader } from "../utils/cloudinaryUpload.js";
+import {v2 as cloudinary} from "cloudinary"
 
 // create Link
 export async function createLink(req, res){
@@ -21,13 +24,16 @@ export async function createLink(req, res){
                 message: "Link Already Exists"
             })
         }
-        
-        
+
+        const screenshotBuffer = await takeScreenshot(value.url)
+        const screenshotURL = await bufferUploader(screenshotBuffer) 
+
         const newLink = await Link.create({
             title: value.title,
             description: value.description,
             url: value.url,
-            logo: value.logo,
+            screenshot: screenshotURL.secure_url,
+            screenshot_public_id: screenshotURL.public_id,
             createdBy: req.user.id,
         })
 
@@ -64,7 +70,6 @@ export async function updateLink(req, res){
                 title: value.title,
                 description: value.description,
                 url: value.url,
-                logo: value.logo,
             },
             {
                 new: true,
@@ -139,12 +144,18 @@ export async function categorizeLink(req, res){
 export async function deleteLink(req, res){
     try {
         const link = await Link.findOneAndDelete({_id:req.params.linkId, createdBy:req.user.id})
+
+
         
         if(!link){
              return res.status(404).json({
                 error: true,
                 message: "Subject not found"
             })
+        }
+
+        if(link.screenshot_public_id){
+            await cloudinary.uploader.destroy(link.screenshot_public_id)
         }
 
          return res.status(200).json({
