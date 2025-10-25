@@ -25,6 +25,17 @@ export async function createLink(req, res){
             })
         }
 
+       const category = value.categoryId
+            ? await Category.findOne({_id: value.categoryId, createdBy: req.user.id})
+            : null;
+
+        if (value.categoryId && !category) {
+            return res.status(400).json({ error: true, message: "Category doesn't exist" });
+        }
+
+        const categoryId = category?._id ?? null;
+        const categoryStatus = !!categoryId
+
         const screenshotBuffer = await takeScreenshot(value.url)
         const screenshotURL = await bufferUploader(screenshotBuffer) 
 
@@ -34,9 +45,10 @@ export async function createLink(req, res){
             url: value.url,
             screenshot: screenshotURL.secure_url,
             screenshot_public_id: screenshotURL.public_id,
+            categoryId:categoryId,
+            hasCategory: categoryStatus,
             createdBy: req.user.id,
         })
-
 
         return res.status(200).json({
             error:false,
@@ -44,7 +56,6 @@ export async function createLink(req, res){
             link: newLink
         })
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             error:true,
             message: "Internal Server Error"
@@ -64,12 +75,26 @@ export async function updateLink(req, res){
     }
 
     try {
-         const link = await Link.findOneAndUpdate(
+
+        const category = value.categoryId
+            ? await Category.findOne({_id: value.categoryId, createdBy: req.user.id})
+            : null;
+
+        if (value.categoryId && !category) {
+            return res.status(400).json({ error: true, message: "Category doesn't exist" });
+        }
+
+        const categoryId = category?._id ?? null;
+        const categoryStatus = !!categoryId
+
+        const link = await Link.findOneAndUpdate(
             {_id:req.params.linkId, createdBy:req.user.id},
             {
                 title: value.title,
                 description: value.description,
                 url: value.url,
+                categoryId: categoryId,
+                hasCategory: categoryStatus,
             },
             {
                 new: true,

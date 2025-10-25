@@ -60,11 +60,6 @@ const linkSchema = new Schema({
     timestamps: true
 })
 
-linkSchema.pre("save", function (next) {
-  this.hasCategory = !!this.category;
-  next();
-});
-
 const Link = model("Link", linkSchema)
 
 export default Link

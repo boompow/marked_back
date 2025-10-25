@@ -8,8 +8,8 @@ const joiCategorySchema = Joi.object({
 const joiLinkSchema = Joi.object({
     title:Joi.string().trim().min(1).label("Link Title").required(),
     url:Joi.string().uri().trim().label("Link URL").required(),
-    logo: Joi.string().uri().trim().label("Link Logo URL"),
-    description: Joi.string().trim().allow("").max(200).label("Link Description") 
+    description: Joi.string().trim().allow("").max(200).label("Link Description") ,
+    categoryId: Joi.string().trim().allow("").label("category Id")
 })
 
 
