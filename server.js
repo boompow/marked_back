@@ -14,8 +14,9 @@ import { getUserData } from "./controllers/userController.js";
 import { initBrowser } from "./utils/puppeteerBrowser.js";
 
 
-// PORT
+// SERVER
 const PORT = process.env.PORT
+const SERVER = process.env.SERVER
 
 
 const app = e();
@@ -53,5 +54,5 @@ app.use("/api/category", authenticate, categoryRoutes)
 // listner
 app.listen(PORT, async()=>{
     await initBrowser()
-    console.log(`200! Server is listening on http://localhost:${PORT}`)
+    console.log(`200! Server is listening on ${SERVER}`)
 })

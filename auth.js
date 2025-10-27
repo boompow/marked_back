@@ -11,12 +11,12 @@ export const auth = betterAuth({
             prompt: "select_account",
             clientId:process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            redirectURI:"http://localhost:5050/api/auth/callback/google"
+            redirectURI:process.env.REDIRECT_URI
         },
     },
     trustedOrigins: [
-    "http://localhost:5050", // backend
-    "http://localhost:5173", // frontend
+    process.env.SERVER, // backend
+    process.env.CLIENT, // frontend
   ],
   session:{
     expiresIn: 60*60*24*7, // session lifespan is 7 days
