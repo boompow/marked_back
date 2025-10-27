@@ -5,7 +5,7 @@ FROM node:22
 ENV PUPPETEER_CACHE_DIR=/opt/render/.cache/puppeteer
 ENV NODE_ENV=production
 
-# Install system dependencies required by Chromium
+# Install system dependencies required by Chromium + install Chromium
 RUN apt-get update && apt-get install -y \
     wget \
     gnupg \
@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     lsb-release \
     xdg-utils \
+    chromium \
     && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
