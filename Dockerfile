@@ -30,8 +30,8 @@ RUN npm install --production
 # Copy the rest of the app
 COPY . .
 
-# Expose the port your app uses (default 3000)
-EXPOSE 3000
+# Expose the port your app uses
+EXPOSE 5050
 
 # Start the server
 CMD ["npm", "start"]
