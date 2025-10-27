@@ -10,7 +10,8 @@ export async function initBrowser(){
                     "--no-sandbox",
                     "--disable-setuid-sandbox",
                     "--disable-gpu",
-                    "--no-zygote"
+                    "--no-zygote",
+                    "--single-process",
                 ]
             });
         
