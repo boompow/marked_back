@@ -1,5 +1,5 @@
 # Use Node 22
-FROM node:22
+FROM node:22-slim
 
 # Set Puppeteer cache for both Puppeteer and puppeteer-core
 ENV PUPPETEER_CACHE_DIR=/opt/render/.cache/puppeteer
@@ -22,11 +22,9 @@ WORKDIR /usr/src/app
 # Copy package.json first to leverage Docker cache
 COPY package*.json ./
 
-# Install Node dependencies
+# Install Puppeteer and its exact bundled Chromium
 RUN npm install --production
-
-# Download exact Chromium version puppeteer-core expects
-RUN npx puppeteer-core browsers install chrome
+RUN npx puppeteer browsers install chrome
 
 # Copy the rest of the app
 COPY . .
