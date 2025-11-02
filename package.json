@@ -19,7 +19,8 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "build": "echo 'No build step required'"
+    "build": "echo 'No build step required'",
+    "postinstall": "npx puppeteer browsers install chrome"
   },
   "type": "module"
 }
