@@ -2,10 +2,10 @@
 FROM node:22-slim
 
 # Puppeteer environment variables
-ENV PUPPETEER_SKIP_DOWNLOAD=false
-ENV PUPPETEER_CACHE_DIR=/usr/src/app/node_modules/puppeteer/.local-chromium
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/src/app/node_modules/puppeteer/.local-chromium/linux-*/chrome-linux64/chrome
-ENV NODE_ENV=production
+# ENV PUPPETEER_SKIP_DOWNLOAD=false
+# ENV PUPPETEER_CACHE_DIR=/usr/src/app/node_modules/puppeteer/.local-chromium
+# ENV PUPPETEER_EXECUTABLE_PATH=/usr/src/app/node_modules/puppeteer/.local-chromium/linux-*/chrome-linux64/chrome
+# ENV NODE_ENV=production
 
 # Install system dependencies for headless Chrome
 RUN apt-get update && apt-get install -y \
