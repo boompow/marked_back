@@ -25,7 +25,13 @@ export const auth = betterAuth({
     cookieCache: {
             enabled: true,
             maxAge: 5 * 60 
-  }},
+  },
+  cookie: {
+    httpOnly: true,
+    secure: true,    
+    sameSite: "none"
+  }
+},
 
   plugins:[
     customSession(async({user})=>{
