@@ -25,13 +25,29 @@ export const auth = betterAuth({
     cookieCache: {
             enabled: true,
             maxAge: 5 * 60 
-  },
-  cookie: {
-    httpOnly: true,
-    secure: true,    
-    sameSite: "none"
   }
 },
+
+advanced: {
+    useSecureCookies: true, 
+    cookies: {
+      session_token: {
+        attributes: {
+          sameSite: "none", 
+          secure: true,
+        },
+      },
+     
+      oauth_state: {
+        attributes: {
+          sameSite: "none",
+          secure: true,
+        },
+      },
+    },
+
+    cookiePrefix: "marked-app",
+  },
 
   plugins:[
     customSession(async({user})=>{
