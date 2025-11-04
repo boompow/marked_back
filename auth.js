@@ -28,26 +28,26 @@ export const auth = betterAuth({
   }
 },
 
-advanced: {
-    useSecureCookies: true, 
-    cookies: {
-      session_token: {
-        attributes: {
-          sameSite: "none", 
-          secure: true,
-        },
-      },
+// advanced: {
+//     useSecureCookies: true, 
+//     cookies: {
+//       session_token: {
+//         attributes: {
+//           sameSite: "none", 
+//           secure: true,
+//         },
+//       },
      
-      oauth_state: {
-        attributes: {
-          sameSite: "none",
-          secure: true,
-        },
-      },
-    },
+//       oauth_state: {
+//         attributes: {
+//           sameSite: "none",
+//           secure: true,
+//         },
+//       },
+//     },
 
-    cookiePrefix: "marked-app",
-  },
+//     cookiePrefix: "marked-app",
+//   },
 
   plugins:[
     customSession(async({user})=>{
