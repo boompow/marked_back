@@ -32,14 +32,14 @@ advanced: {
   cookies: {
     session_token: {
       attributes: {
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
+        secure: true,
       },
     },
     oauth_state: {
       attributes: {
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
+        secure: true,
       },
     },
   },
