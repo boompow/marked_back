@@ -27,28 +27,24 @@ export const auth = betterAuth({
             maxAge: 5 * 60 
   }
 },
-
-// advanced: {
-//     useSecureCookies: true, 
-//     cookies: {
-//       session_token: {
-//         attributes: {
-//           sameSite: "none", 
-//           secure: true,
-//         },
-//       },
-     
-//       oauth_state: {
-//         attributes: {
-//           sameSite: "none",
-//           secure: true,
-//         },
-//       },
-//     },
-
-//     cookiePrefix: "marked-app",
-//   },
-
+advanced: {
+  useSecureCookies: process.env.NODE_ENV === "production",
+  cookies: {
+    session_token: {
+      attributes: {
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+    oauth_state: {
+      attributes: {
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
+  cookiePrefix: "marked-app",
+},
   plugins:[
     customSession(async({user})=>{
       return {

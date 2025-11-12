@@ -21,14 +21,15 @@ const SERVER = process.env.SERVER
 
 const app = e();
 
+app.set('trust proxy', 1);
+
 // connect to mongodb
 dbConnect()
 
 // header middleware
-app.set('trust proxy', 1);
 app.use(helmet())
 app.use(cors({
-    origin: process.env.CLIENT,
+    origin: [process.env.CLIENT],
     credentials: true
 }))
 
