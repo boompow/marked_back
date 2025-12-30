@@ -6,6 +6,7 @@ import {customSession} from "better-auth/plugins";
 
 export const auth = betterAuth({
     database: mongodbAdapter(db),
+    baseURL: process.env.SERVER,
     socialProviders: {
         google:{
             prompt: "select_account",
@@ -21,7 +22,6 @@ export const auth = betterAuth({
   session:{
     expiresIn: 60*60*24*7, // session lifespan is 7 days
     updateAge: 60*15, // session is rotated every 15 min
-
     cookieCache: {
             enabled: true,
             maxAge: 5 * 60 
@@ -35,6 +35,7 @@ advanced: {
         sameSite: "none",
         secure: true,
         httpOnly: true,
+        path: "/"
       },
     },
     oauth_state: {
@@ -42,6 +43,8 @@ advanced: {
         sameSite: "none",
         secure: true,
         httpOnly: true,
+        path: "/",
+        maxAge: 60*10
       },
 
     },
