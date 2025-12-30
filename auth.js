@@ -6,7 +6,6 @@ import {customSession} from "better-auth/plugins";
 
 export const auth = betterAuth({
     database: mongodbAdapter(db),
-    // CRITICAL: baseURL must include the /api/auth prefix for deployed environments
     baseURL: `${process.env.SERVER}/api/auth`,
     socialProviders: {
         google:{
@@ -30,12 +29,10 @@ export const auth = betterAuth({
   }
 },
 advanced: {
-  // Let cookie attributes handle security
   cookies: {
     session_token: {
       attributes: {
-        // Use 'lax' instead of 'none' - better compatibility with deployments
-        sameSite: "lax",
+        sameSite: "none",
         secure: true,
         httpOnly: true,
         path: "/"
@@ -44,8 +41,7 @@ advanced: {
     // CRITICAL: Both oauth_state AND codeVerifier are needed for OAuth PKCE flow
     oauth_state: {
       attributes: {
-        // Use 'lax' for OAuth cookies - they need to work during redirects
-        sameSite: "lax",
+        sameSite: "none",
         secure: true,
         httpOnly: true,
         path: "/",
@@ -54,8 +50,7 @@ advanced: {
     },
     codeVerifier: {
       attributes: {
-        // Use 'lax' for OAuth cookies - they need to work during redirects
-        sameSite: "lax",
+        sameSite: "none",
         secure: true,
         httpOnly: true,
         path: "/",

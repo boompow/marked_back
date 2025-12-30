@@ -27,18 +27,21 @@ app.set('trust proxy', 1);
 dbConnect()
 
 // header middleware
-app.use(helmet())
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
+}))
 app.use(cors({
     origin: [process.env.CLIENT],
     credentials: true
 }))
 
-// Better Auth catch all
-app.all("/api/auth/*splat", toNodeHandler(auth));
-
 // body middleware
 app.use(e.json())
 app.use(e.urlencoded({extended: true}))
+
+// Better Auth catch all - MUST come after CORS and body parsing
+app.all("/api/auth/*", toNodeHandler(auth));
 
 
 // routes
