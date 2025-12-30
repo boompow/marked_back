@@ -41,7 +41,7 @@ app.use(e.json())
 app.use(e.urlencoded({extended: true}))
 
 // Better Auth catch all - MUST come after CORS and body parsing
-app.all("/api/auth/*", toNodeHandler(auth));
+app.all("/api/auth/*splat", toNodeHandler(auth));
 
 
 // routes
