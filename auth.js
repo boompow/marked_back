@@ -34,13 +34,16 @@ advanced: {
       attributes: {
         sameSite: "none",
         secure: true,
+        httpOnly: true,
       },
     },
     oauth_state: {
       attributes: {
         sameSite: "none",
         secure: true,
+        httpOnly: true,
       },
+
     },
   },
   cookiePrefix: "marked-app",
