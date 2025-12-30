@@ -6,14 +6,15 @@ import {customSession} from "better-auth/plugins";
 
 export const auth = betterAuth({
     database: mongodbAdapter(db),
-    baseURL: process.env.SERVER,
+    // CRITICAL: baseURL must include the /api/auth prefix for deployed environments
+    baseURL: `${process.env.SERVER}/api/auth`,
     socialProviders: {
         google:{
             prompt: "select_account",
             clientId:process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             // Let Better Auth auto-generate redirectURI from baseURL
-            // redirectURI will be: {baseURL}/api/auth/callback/google
+            // redirectURI will be: {baseURL}/callback/google
         },
     },
     trustedOrigins: [
@@ -29,18 +30,22 @@ export const auth = betterAuth({
   }
 },
 advanced: {
+  // Let cookie attributes handle security
   cookies: {
     session_token: {
       attributes: {
-        sameSite: "none",
+        // Use 'lax' instead of 'none' - better compatibility with deployments
+        sameSite: "lax",
         secure: true,
         httpOnly: true,
         path: "/"
       },
     },
+    // CRITICAL: Both oauth_state AND codeVerifier are needed for OAuth PKCE flow
     oauth_state: {
       attributes: {
-        sameSite: "none",
+        // Use 'lax' for OAuth cookies - they need to work during redirects
+        sameSite: "lax",
         secure: true,
         httpOnly: true,
         path: "/",
@@ -49,7 +54,8 @@ advanced: {
     },
     codeVerifier: {
       attributes: {
-        sameSite: "none",
+        // Use 'lax' for OAuth cookies - they need to work during redirects
+        sameSite: "lax",
         secure: true,
         httpOnly: true,
         path: "/",
