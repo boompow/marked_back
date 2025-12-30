@@ -12,7 +12,8 @@ export const auth = betterAuth({
             prompt: "select_account",
             clientId:process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            redirectURI:process.env.REDIRECT_URI
+            // Let Better Auth auto-generate redirectURI from baseURL
+            // redirectURI will be: {baseURL}/api/auth/callback/google
         },
     },
     trustedOrigins: [
@@ -28,7 +29,6 @@ export const auth = betterAuth({
   }
 },
 advanced: {
-  useSecureCookies: process.env.NODE_ENV === "production",
   cookies: {
     session_token: {
       attributes: {
@@ -44,9 +44,17 @@ advanced: {
         secure: true,
         httpOnly: true,
         path: "/",
-        maxAge: 60*10
+        maxAge: 60*10 // 10 minutes
       },
-
+    },
+    codeVerifier: {
+      attributes: {
+        sameSite: "none",
+        secure: true,
+        httpOnly: true,
+        path: "/",
+        maxAge: 60*10 // 10 minutes
+      },
     },
   },
   cookiePrefix: "marked-app",
